@@ -1,0 +1,9 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/ems_dev
+    username: root
+    password: Mdwdw@123
+  jpa:
+    hibernate:
+      ddl-auto: update
+  show-sql: true
