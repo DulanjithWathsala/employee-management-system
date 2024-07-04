@@ -5,7 +5,7 @@ import edu.icet.ems.model.Employee;
 
 public interface EmployeeService {
 
-    EmployeeEntity persist(Employee employee);
+    Employee persist(Employee employee);
 
     Iterable<Employee> retrieveAll();
 

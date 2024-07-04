@@ -3,32 +3,31 @@ package edu.icet.ems.service.impl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.ems.entity.EmployeeEntity;
 import edu.icet.ems.model.Employee;
-import edu.icet.ems.repository.EmployeeRepository;
+import edu.icet.ems.repository.EmployeeJpaRepository;
 import edu.icet.ems.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
-
+    private final EmployeeJpaRepository employeeJpaRepository;
     private final ObjectMapper mapper;
 
     @Override
-    public EmployeeEntity persist(Employee employee) {
-        return employeeRepository.save(
-                mapper.convertValue(employee, EmployeeEntity.class));
+    public Employee persist(Employee employee) {
+        return mapper.convertValue(employeeJpaRepository.save(
+                mapper.convertValue(employee, EmployeeEntity.class))
+                , Employee.class);
     }
 
     @Override
     public Iterable<Employee> retrieveAll() {
-        Iterable<EmployeeEntity> entities = employeeRepository.findAll();
+        Iterable<EmployeeEntity> entities = employeeJpaRepository.findAll();
 
         List<Employee> employeeList = new ArrayList<>();
         entities.forEach(employeeEntity -> employeeList.add(
@@ -45,6 +44,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public void deleteById(Integer id) {
-
+        employeeJpaRepository.deleteById(id);
     }
 }
