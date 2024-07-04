@@ -20,9 +20,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee persist(Employee employee) {
-        return mapper.convertValue(employeeJpaRepository.save(
-                mapper.convertValue(employee, EmployeeEntity.class))
-                , Employee.class);
+        if (isValidEmail(employee.getEmail())) {
+            return mapper.convertValue(employeeJpaRepository.save(
+                            mapper.convertValue(employee, EmployeeEntity.class))
+                    , Employee.class);
+        }
+        return null;
     }
 
     @Override
@@ -43,7 +46,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    public Employee findByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public void deleteById(Integer id) {
         employeeJpaRepository.deleteById(id);
+    }
+
+    private boolean isValidEmail(String email){
+        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
+        return email.matches(regex);
     }
 }

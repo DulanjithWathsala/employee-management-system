@@ -11,5 +11,9 @@ public interface EmployeeService {
 
     Employee findById(Integer id);
 
+    Employee findByEmail(String email);
+
     void deleteById(Integer id);
+
+
 }
