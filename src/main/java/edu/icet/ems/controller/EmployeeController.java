@@ -5,6 +5,9 @@ import edu.icet.ems.service.EmployeeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
+import java.util.Map;
+
 @RestController
 @RequestMapping("employee")
 @RequiredArgsConstructor
@@ -22,18 +25,19 @@ public class EmployeeController {
         return employeeService.retrieveAll();
     }
 
-    @GetMapping()
+    @GetMapping("/by-email")
     public Employee retrieveByEmail(@RequestParam String email) {
         return employeeService.findByEmail(email);
     }
 
     @GetMapping("/{id}")
-    public Employee retrieveById(@PathVariable Integer id) {
+    public Employee retrieveById(@PathVariable Long id) {
         return employeeService.findById(id);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteById(@PathVariable Integer id) {
-        employeeService.deleteById(id);
+    public Map<String, String> deleteById(@PathVariable Long id) {
+        return Collections.singletonMap(
+                "Delete", employeeService.deleteById(id));
     }
 }

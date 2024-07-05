@@ -9,11 +9,11 @@ public interface EmployeeService {
 
     Iterable<Employee> retrieveAll();
 
-    Employee findById(Integer id);
+    Employee findById(Long id);
 
     Employee findByEmail(String email);
 
-    void deleteById(Integer id);
+    String deleteById(Long id);
 
 
 }

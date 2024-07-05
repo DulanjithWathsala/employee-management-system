@@ -5,6 +5,7 @@ import edu.icet.ems.entity.EmployeeEntity;
 import edu.icet.ems.model.Employee;
 import edu.icet.ems.repository.EmployeeJpaRepository;
 import edu.icet.ems.service.EmployeeService;
+import edu.icet.ems.utils.EmailValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee persist(Employee employee) {
-        if (isValidEmail(employee.getEmail())) {
+        if (EmailValidator.isValidEmail(employee.getEmail())) {
             return mapper.convertValue(employeeJpaRepository.save(
                             mapper.convertValue(employee, EmployeeEntity.class))
                     , Employee.class);
@@ -41,7 +42,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findById(Integer id) {
+    public Employee findById(Long id) {
         return null;
     }
 
@@ -51,12 +52,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void deleteById(Integer id) {
-        employeeJpaRepository.deleteById(id);
-    }
-
-    private boolean isValidEmail(String email){
-        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-        return email.matches(regex);
+    public String deleteById(Long id) {
+        if (employeeJpaRepository.existsById(id)) {
+            employeeJpaRepository.deleteById(id);
+            return "Success";
+        }
+        return "Failed";
     }
 }
