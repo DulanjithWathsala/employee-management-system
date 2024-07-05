@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,11 +44,21 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee findById(Long id) {
+        Optional<EmployeeEntity> employeeEntity = employeeJpaRepository.findById(id);
+        if (employeeEntity.isPresent()) {
+            return mapper.convertValue(employeeEntity, Employee.class);
+        }
         return null;
     }
 
     @Override
     public Employee findByEmail(String email) {
+        if (EmailValidator.isValidEmail(email)) {
+            Optional<EmployeeEntity> employeeEntity = employeeJpaRepository.findByEmail(email);
+            if (employeeEntity.isPresent()) {
+                return mapper.convertValue(employeeEntity, Employee.class);
+            }
+        }
         return null;
     }
 
