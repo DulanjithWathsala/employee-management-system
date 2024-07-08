@@ -1,5 +1,7 @@
 package edu.icet.ems.utils;
 
+import org.springframework.util.StringUtils;
+
 import java.util.regex.Pattern;
 
 public class EmailValidator {
@@ -8,7 +10,7 @@ public class EmailValidator {
     private static final Pattern EMAIL_PATTERN = Pattern.compile(EMAIL_REGEX);
 
     public static boolean isValidEmail(String email) {
-        if (email == null || email.isEmpty()) {
+        if (StringUtils.hasText(email)) {
             return false;
         }
 

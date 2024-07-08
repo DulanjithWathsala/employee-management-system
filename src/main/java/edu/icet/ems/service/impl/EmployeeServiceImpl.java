@@ -36,8 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         List<Employee> employeeList = new ArrayList<>();
         entities.forEach(employeeEntity -> employeeList.add(
-                mapper.convertValue(
-                        employeeEntity, Employee.class)));
+                mapper.convertValue(employeeEntity, Employee.class)));
 
         return employeeList;
     }
