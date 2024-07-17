@@ -35,8 +35,14 @@ public class EmployeeController {
         return employeeService.findById(id);
     }
 
+    @GetMapping("/by-name/{firstName}")
+    public Employee retrieveByFirstName(@PathVariable String firstName) {
+        return employeeService.findByFirstName(firstName);
+    }
+
     @DeleteMapping("/{id}")
     public Map<String, String> deleteById(@PathVariable Long id) {
+        // Returns whether delete success or failed
         return Collections.singletonMap(
                 "Delete", employeeService.deleteById(id));
     }

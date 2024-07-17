@@ -2,12 +2,15 @@ package edu.icet.ems.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.ems.entity.EmployeeEntity;
+import edu.icet.ems.exception.CustomerNotFoundException;
+import edu.icet.ems.exception.ParameterNotFoundException;
 import edu.icet.ems.model.Employee;
 import edu.icet.ems.repository.EmployeeJpaRepository;
 import edu.icet.ems.service.EmployeeService;
 import edu.icet.ems.utils.EmailValidator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +48,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findById(Long id) {
         Optional<EmployeeEntity> employeeEntity = employeeJpaRepository.findById(id);
         if (employeeEntity.isPresent()) {
-            return mapper.convertValue(employeeEntity, Employee.class);
+            return mapper.convertValue(employeeEntity , Employee.class);
         }
         return null;
     }
@@ -55,7 +58,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         if (EmailValidator.isValidEmail(email)) {
             Optional<EmployeeEntity> employeeEntity = employeeJpaRepository.findByEmail(email);
             if (employeeEntity.isPresent()) {
-                return mapper.convertValue(employeeEntity, Employee.class);
+                return mapper.convertValue(employeeEntity.get() , Employee.class);
             }
         }
         return null;
@@ -68,5 +71,19 @@ public class EmployeeServiceImpl implements EmployeeService {
             return "Success";
         }
         return "Failed";
+    }
+
+    @Override
+    public Employee findByFirstName(String firstName) {
+        if (!StringUtils.hasText(firstName)) {
+            throw new ParameterNotFoundException("First name can't be empty!");
+        }
+
+        Optional<EmployeeEntity> employeeEntity = employeeJpaRepository.findByFirstName(firstName);
+        if (employeeEntity.isEmpty()) {
+            throw new CustomerNotFoundException("Customer Not Found");
+        }
+
+        return mapper.convertValue(employeeEntity.get(), Employee.class);
     }
 }

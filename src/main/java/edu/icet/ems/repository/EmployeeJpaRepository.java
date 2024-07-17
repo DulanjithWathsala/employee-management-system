@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface EmployeeJpaRepository extends CrudRepository<EmployeeEntity, Long> {
 
     Optional<EmployeeEntity> findByEmail(String email);
+    Optional<EmployeeEntity> findByFirstName(String firstName);
 }
