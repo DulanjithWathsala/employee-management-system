@@ -1,6 +1,5 @@
 package edu.icet.ems.service;
 
-import edu.icet.ems.entity.EmployeeEntity;
 import edu.icet.ems.model.Employee;
 
 public interface EmployeeService {

@@ -13,4 +13,6 @@ public class Employee {
     private String contactNo;
     private String email;
     private String address;
+    private Long departmentId;
+    private Long roleId;
 }
