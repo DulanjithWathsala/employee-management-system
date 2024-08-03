@@ -1,5 +1,6 @@
 package edu.icet.ems.controller;
 
+import edu.icet.ems.model.Department;
 import edu.icet.ems.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,5 +19,10 @@ public class DepartmentController {
     @GetMapping("/all-names")
     public List<String> retrieveAllNames() {
         return departmentService.retrieveDepartmentNames();
+    }
+
+    @GetMapping("/all")
+    public List<Department> retrieveAll() {
+        return departmentService.retrieveAll();
     }
 }

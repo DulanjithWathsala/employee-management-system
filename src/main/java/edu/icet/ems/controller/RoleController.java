@@ -1,5 +1,6 @@
 package edu.icet.ems.controller;
 
+import edu.icet.ems.model.Role;
 import edu.icet.ems.service.RoleService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,5 +19,10 @@ public class RoleController {
     @GetMapping("/all-names")
     public List<String> retrieveAllNames() {
         return roleService.retrieveRoleNames();
+    }
+
+    @GetMapping("/all")
+    public List<Role> retrieveAll() {
+        return roleService.retrieveAll();
     }
 }

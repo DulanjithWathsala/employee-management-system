@@ -1,7 +1,10 @@
 package edu.icet.ems.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.ems.entity.DepartmentEntity;
 import edu.icet.ems.entity.RoleEntity;
+import edu.icet.ems.model.Department;
+import edu.icet.ems.model.Role;
 import edu.icet.ems.repository.DepartmentJpaRepository;
 import edu.icet.ems.service.DepartmentService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +18,7 @@ import java.util.List;
 public class DepartmentServiceImpl implements DepartmentService {
 
     private final DepartmentJpaRepository departmentJpaRepository;
+    private final ObjectMapper mapper;
 
     @Override
     public List<String> retrieveDepartmentNames() {
@@ -25,5 +29,17 @@ public class DepartmentServiceImpl implements DepartmentService {
                 departmentNames.add(departmentEntity.getName()));
 
         return departmentNames;
+    }
+
+    @Override
+    public List<Department> retrieveAll() {
+        Iterable<DepartmentEntity> departmentEntities = departmentJpaRepository.findAll();
+        List<Department> departmentList = new ArrayList<>();
+
+        departmentEntities.forEach(departmentEntity -> departmentList.add(
+                mapper.convertValue(departmentEntity, Department.class)
+        ));
+
+        return departmentList;
     }
 }
