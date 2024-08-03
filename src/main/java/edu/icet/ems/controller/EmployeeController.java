@@ -11,6 +11,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("employee")
 @RequiredArgsConstructor
+@CrossOrigin
 public class EmployeeController {
 
     private final EmployeeService employeeService;
