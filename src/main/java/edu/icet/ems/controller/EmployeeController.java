@@ -9,14 +9,14 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@RequestMapping("employee")
+@RequestMapping("/employee")
 @RequiredArgsConstructor
 @CrossOrigin
 public class EmployeeController {
 
     private final EmployeeService employeeService;
 
-    @PostMapping()
+    @PostMapping
     public Employee persist(@RequestBody Employee employee) {
         return employeeService.persist(employee);
     }

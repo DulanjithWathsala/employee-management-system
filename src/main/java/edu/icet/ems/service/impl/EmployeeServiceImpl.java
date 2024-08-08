@@ -2,7 +2,8 @@ package edu.icet.ems.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import edu.icet.ems.entity.EmployeeEntity;
-import edu.icet.ems.exception.CustomerNotFoundException;
+import edu.icet.ems.exception.EmployeeAlreadyExistException;
+import edu.icet.ems.exception.EmployeeNotFoundException;
 import edu.icet.ems.exception.ParameterNotFoundException;
 import edu.icet.ems.model.Employee;
 import edu.icet.ems.repository.EmployeeJpaRepository;
@@ -25,12 +26,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public Employee persist(Employee employee) {
-        if (EmailValidator.isValidEmail(employee.getEmail())) {
-            return mapper.convertValue(employeeJpaRepository.save(
-                            mapper.convertValue(employee, EmployeeEntity.class))
-                    , Employee.class);
+        if (employeeJpaRepository.findByEmail(employee.getEmail()).isPresent()) {
+            throw new EmployeeAlreadyExistException("Employee already exist with same email!");
         }
-        return null;
+
+        return mapper.convertValue(employeeJpaRepository.save(
+                        mapper.convertValue(employee, EmployeeEntity.class))
+                , Employee.class);
     }
 
     @Override
@@ -81,7 +83,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Optional<EmployeeEntity> employeeEntity = employeeJpaRepository.findByFirstName(firstName);
         if (employeeEntity.isEmpty()) {
-            throw new CustomerNotFoundException("Customer Not Found");
+            throw new EmployeeNotFoundException("Customer Not Found");
         }
 
         return mapper.convertValue(employeeEntity.get(), Employee.class);
