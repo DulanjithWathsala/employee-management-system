@@ -47,4 +47,9 @@ public class EmployeeController {
         return Collections.singletonMap(
                 "Delete", employeeService.deleteById(id));
     }
+
+    @PutMapping()
+    public Employee update(@RequestBody Employee employee) {
+         return employeeService.update(employee);
+    }
 }

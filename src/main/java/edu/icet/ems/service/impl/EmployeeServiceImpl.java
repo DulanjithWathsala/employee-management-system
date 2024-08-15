@@ -31,8 +31,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return mapper.convertValue(employeeJpaRepository.save(
-                        mapper.convertValue(employee, EmployeeEntity.class))
-                , Employee.class);
+                        mapper.convertValue(employee, EmployeeEntity.class)),
+                Employee.class);
     }
 
     @Override
@@ -87,5 +87,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
 
         return mapper.convertValue(employeeEntity.get(), Employee.class);
+    }
+
+    @Override
+    public Employee update(Employee employee) {
+        return mapper.convertValue(
+                employeeJpaRepository.save(mapper.convertValue(employee, EmployeeEntity.class)),
+                Employee.class);
     }
 }
